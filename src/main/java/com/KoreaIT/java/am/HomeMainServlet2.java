@@ -10,7 +10,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/home/printDan")
 public class HomeMainServlet2 extends HttpServlet {
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+	throws ServletException, IOException {
 		
 		response.setContentType("text/html; charset=UTF-8");
 		
@@ -25,13 +26,18 @@ public class HomeMainServlet2 extends HttpServlet {
 			inputedLimit = "9";
 		}
 		
+		String inputedColor = request.getParameter("color");
+		if(inputedColor == null) {
+			inputedColor = "black";
+		}
+
 		// 파라미터를 정수화
 		int dan = Integer.parseInt(inputedDan);
-		int limit = Integer.parseInt(inputedLimit);
+		int limit = Integer.parseInt(inputedLimit);		
 
-		response.getWriter().append(String.format(" %d단 <br />", dan));
+		response.getWriter().append(String.format("<h2 style=\"color:%s\"> %d단 </h2>",inputedColor, dan));
 		for(int i = 1; i <= limit; i++) {
-			response.getWriter().append(String.format(" %d X %d = %d <br>", dan, i, dan * i));
+			response.getWriter().append(String.format("<div style=\"color:%s\"> %d X %d = %d </div>",inputedColor, dan, i, dan * i));
 		}
 		
 	}
