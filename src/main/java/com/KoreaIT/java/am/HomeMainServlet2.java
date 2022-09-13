@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/home/printDan")
+@WebServlet("/home/printDan2")
 public class HomeMainServlet2 extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 	throws ServletException, IOException {
@@ -28,7 +28,7 @@ public class HomeMainServlet2 extends HttpServlet {
 		
 		String inputedColor = request.getParameter("color");
 		if(inputedColor == null) {
-			inputedColor = "black";
+			inputedColor = "";
 		}
 
 		// 파라미터를 정수화
@@ -39,6 +39,9 @@ public class HomeMainServlet2 extends HttpServlet {
 		for(int i = 1; i <= limit; i++) {
 			response.getWriter().append(String.format("<div style=\"color:%s\"> %d X %d = %d </div>",inputedColor, dan, i, dan * i));
 		}
+		
+		// http://localhost:8081/JSP_AM/home/printDan?dan=88&limit=33&color=purple
+		// -> 88*33단을 글씨 색깔 보라색으로 출력
 		
 	}
 }
