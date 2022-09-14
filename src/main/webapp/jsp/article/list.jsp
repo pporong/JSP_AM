@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.time.LocalDateTime" %>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
@@ -13,6 +14,10 @@ List<Map<String, Object>> articleRows = (List<Map<String, Object>>)request.getAt
 <title> 게시물 리스트 </title>
 </head>
 <body>
+
+<div> <a href="https://www.naver.com" target="_blank"> 네이버 바로가기 </a></div>
+<div> <a href="/JSP_AM/article/list" target="_blank"> 게시물 리스트 바로가기 </a></div>
+<div> <a href="detail" target="_blank"> 상세보기 바로가기 </a></div>
 
 <h1> 게시물 리스트 v1 </h1>
 
