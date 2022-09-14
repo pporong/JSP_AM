@@ -37,6 +37,8 @@ title = '제목4',
 
 SELECT * FROM article;
 
+SELECT * FROM article ORDER BY id DESC;
+
 -- ----------------------------
 
 DROP DATABASE IF EXISTS JSPTest;

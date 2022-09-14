@@ -26,12 +26,12 @@ int id = Integer.parseInt(articleId);
 </head>
 <body>
 
-<div> <a href="/JSP_AM/article/list" target="_blank"> 게시물 리스트 바로가기 </a></div>
-<div> <a href="detail" target="_blank"> 상세보기 바로가기 </a></div>
+<!-- <div> <a href="/JSP_AM/article/list" target="_blank"> 게시물 리스트 바로가기 </a></div> -->
+<!-- <div> <a href="detail" target="_blank"> 상세보기 바로가기 </a> </div> -->
 
 <h2> <%=id %>번 글 상세보기 </h2>
 
-<div>* 번 호 : <%=(int)articleRow.get("id") %> </div>
+<div>* 번 호 : <%=(int)articleRow.get("id") %></div>
 <div>* 날 짜 : <%=(LocalDateTime)articleRow.get("regDate") %></div>
 <div>* 제 목 : <%=(String)articleRow.get("title") %></div>
 <div>* 내 용 : <%=(String)articleRow.get("body") %></div>

@@ -15,83 +15,19 @@ List<Map<String, Object>> articleRows = (List<Map<String, Object>>)request.getAt
 </head>
 <body>
 
-<div> <a href="https://www.naver.com" target="_blank"> 네이버 바로가기 </a></div>
-<div> <a href="/JSP_AM/article/list" target="_blank"> 게시물 리스트 바로가기 </a></div>
+<div> <a href="../home/main"> 메인 페이지 바로가기 </a></div>
 <div> <a href="detail" target="_blank"> 상세보기 바로가기 </a></div>
 
-<h1> 게시물 리스트 v1 </h1>
-
-<ul>
-	<li>
-	<%=(int)articleRows.get(0).get("id") %>번, 
-	<%=(LocalDateTime)articleRows.get(0).get("regDate") %>,
-	<%=(String)articleRows.get(0).get("title") %>
-	</li>
-	
-	<li>
-	<%=(int)articleRows.get(1).get("id") %>번, 
-	<%=(LocalDateTime)articleRows.get(0).get("regDate") %>,
-	<%=(String)articleRows.get(0).get("title") %>
-	</li>
-	
-	<li>
-	<%=(int)articleRows.get(2).get("id") %>번, 
-	<%=(LocalDateTime)articleRows.get(0).get("regDate") %>,
-	<%=(String)articleRows.get(0).get("title") %>
-	</li>
-</ul>
-
-<h1> 게시물 리스트 v2 </h1>
-
-<ul>
-	<%for(int i = 0; i < 3; i++){ %>
-	<li>
-	<%=(int)articleRows.get(i).get("id") %>번, 
-	<%=(LocalDateTime)articleRows.get(0).get("regDate") %>,
-	<%=(String)articleRows.get(0).get("title") %>
-	<% }%>
-	</li>
-</ul>
-
-<h1> 게시물 리스트 v3 </h1>
-
-<ul>
-	<% for(int i = 0; i < 3; i++){
-	   Map<String, Object> articleRow = articleRows.get(i); %>
-	<li>
-		<%=(int)articleRow.get("id") %>번, 
-		<%=(LocalDateTime)articleRow.get("regDate") %>, 
-		<%=(String)articleRow.get("title") %>
-		</li>
-		<%} %>
-	
-</ul>
-
-<h1> 게시물 리스트 v4 </h1>
-
-<ul>
-	<% for(int i = 0; i < articleRows.size(); i++){
-	   Map<String, Object> articleRow = articleRows.get(i); %>
-	<li>
-		<%=(int)articleRow.get("id") %>번, 
-		<%=(LocalDateTime)articleRow.get("regDate") %>, 
-		<%=(String)articleRow.get("title") %>
-		</li>
-		<%} %>
-	
-</ul>
-
-<h1> 게시물 리스트 v5 </h1>
+<h1> 게시물 리스트 </h1>
 
 <ul>
 	<%for(Map<String, Object> articleRow : articleRows){ %>
-	<li>
+	<li><a href="detail?id=<%=(int)articleRow.get("id") %>">
 	<%=(int)articleRow.get("id") %>번,
 	<%=(LocalDateTime)articleRow.get("regDate") %>, 
 	<%=(String)articleRow.get("title") %>
-	</li>
+	</a></li>
 	<%} %>
-	
 </ul>
 
 

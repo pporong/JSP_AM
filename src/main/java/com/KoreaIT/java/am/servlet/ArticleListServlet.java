@@ -1,4 +1,4 @@
-package com.KoreaIT.java.am;
+package com.KoreaIT.java.am.servlet;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -45,11 +45,10 @@ public class ArticleListServlet extends HttpServlet {
 			conn = DriverManager.getConnection(url, user, password);
 
 			response.getWriter().append("!!성and공!!");
-			DBUtil dbUtil = new DBUtil(request, response);
 
-			String sql = "SELECT * FROM article";
+			String sql = "SELECT * FROM article ORDER BY id DESC";
 
-			List<Map<String, Object>> articleRows = dbUtil.selectRows(conn, sql);
+			List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql);
 
 //			response.getWriter().append(articleRows.toString());
 			
