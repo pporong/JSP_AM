@@ -36,8 +36,8 @@ public class ArticleListServlet extends HttpServlet {
 			Class.forName(driverName);
 
 		} catch (ClassNotFoundException e) {
-			System.out.println("예외 : 클래스가 없습니다.");
-			System.out.println("프로그램을 종료합니다.");
+			System.out.println("** 예외 : 클래스가 없습니다. **");
+			System.out.println("프로그램을 종료합니다. :(");
 			return;
 		}
 
@@ -51,7 +51,10 @@ public class ArticleListServlet extends HttpServlet {
 
 			List<Map<String, Object>> articleRows = dbUtil.selectRows(conn, sql);
 
-			response.getWriter().append(articleRows.toString());
+//			response.getWriter().append(articleRows.toString());
+			
+			request.setAttribute("articleRows", articleRows);
+			request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
