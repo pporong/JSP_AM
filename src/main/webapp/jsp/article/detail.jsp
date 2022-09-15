@@ -36,6 +36,8 @@ int id = Integer.parseInt(articleId);
 <div>* 제 목 : <%=(String)articleRow.get("title") %></div>
 <div>* 내 용 : <%=(String)articleRow.get("body") %></div>
 <br>
+<button><a href="doDelete?id=<%=articleRow.get("id") %>"> 삭제 </a></button>
+<br>
 <div> <a href="list"> 리스트로 돌아가기 </a></div>
 
 </body>
