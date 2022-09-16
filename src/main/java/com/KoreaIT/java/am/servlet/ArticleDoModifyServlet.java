@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Map;
 
 import com.KoreaIT.java.am.util.DBUtil;
 import com.KoreaIT.java.am.util.SecSql;
@@ -15,8 +14,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/article/doWrite")
-public class ArticleDoWriteServlet extends HttpServlet {
+@WebServlet("/article/doModify")
+public class ArticleDoModifyServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -43,31 +42,27 @@ public class ArticleDoWriteServlet extends HttpServlet {
 			Class.forName(driverName);
 
 		} catch (ClassNotFoundException e) {
-			System.out.println("** 예외 : 클래스가 없습니다. **");
-			System.out.println("프로그램을 종료합니다. :(");
+			System.out.println("예외 : 클래스가 없습니다.");
+			System.out.println("프로그램을 종료합니다.");
 			return;
 		}
 
 		try {
 			conn = DriverManager.getConnection(url, user, password);
 
+			int id = Integer.parseInt(request.getParameter("id"));
 			String title = request.getParameter("title");
 			String body = request.getParameter("body");
 
-			// 작성
-			SecSql sql = SecSql.from("INSERT");
-			sql.append("INTO article");
-			sql.append("SET regDate = NOW()");
-			sql.append(", title = ?", title);
+			SecSql sql = SecSql.from("UPDATE article");
+			sql.append("SET title = ?", title);
 			sql.append(", `body` = ?", body);
+			sql.append("WHERE id = ?;", id);
 
-			int id = DBUtil.insert(conn, sql);
+			DBUtil.update(conn, sql);
 
-			request.setAttribute("title", title);
-			request.setAttribute("body", body);
-
-			response.getWriter()
-					.append(String.format("<script>alert('%d번 글이 생성 되었습니다.'); location.replace('list');</script>", id));
+			response.getWriter().append(String
+					.format("<script>alert('%d번 글이 수정 되었습니다.'); location.replace('detail?id=%d');</script>", id, id));
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -80,6 +75,7 @@ public class ArticleDoWriteServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+
 	}
 
 }

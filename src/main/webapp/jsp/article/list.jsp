@@ -35,16 +35,22 @@ int totalPage = (int)request.getAttribute("totalPage");
 		<th>번 호</th>
 		<th>날 짜</th>
 		<th>제 목</th>
+		<th>수 정</th>
 		<th>삭 제</th>
+		
 	</tr>
 	
 		<% for(Map<String, Object> articleRow : articleRows){ %>
 		<tr>
 			<td align="center"><%=articleRow.get("id") %>번</td>
 			<td align="center"><%=articleRow.get("regDate") %></td>
-			<td align=""><a href="detail?id=<%=articleRow.get("id") %>"><%=articleRow.get("title") %></a></td>
+			<td align=""><a href="detail?id=<%=articleRow.get("id") %>"><%=articleRow.get("title") %></a></td>	
+					
+			<td align="center"><a href="modiify?id=<%=articleRow.get("id") %>"> 수정 </a></td>
 			
 			<td align="center"><a href="doDelete?id=<%=articleRow.get("id") %>"> 삭제 </a></td>
+
+			
 		</tr>
 		<%} %>
 	

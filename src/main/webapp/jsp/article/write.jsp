@@ -10,7 +10,7 @@
 	
 	<div class="post_body">
 		
-		<h2> 글 작성하기 </h2>
+		<h2 align> 글 작성하기 </h2>
 		
 		<form action="doWrite" method="post" >
 			<div></div>

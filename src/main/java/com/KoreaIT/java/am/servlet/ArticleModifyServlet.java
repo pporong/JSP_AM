@@ -15,9 +15,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/article/doWrite")
-public class ArticleDoWriteServlet extends HttpServlet {
-
+@WebServlet("/article/modify")
+public class ArticleModifyServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -43,31 +42,24 @@ public class ArticleDoWriteServlet extends HttpServlet {
 			Class.forName(driverName);
 
 		} catch (ClassNotFoundException e) {
-			System.out.println("** 예외 : 클래스가 없습니다. **");
-			System.out.println("프로그램을 종료합니다. :(");
+			System.out.println("예외 : 클래스가 없습니다.");
+			System.out.println("프로그램을 종료합니다.");
 			return;
 		}
 
 		try {
 			conn = DriverManager.getConnection(url, user, password);
 
-			String title = request.getParameter("title");
-			String body = request.getParameter("body");
+			int id = Integer.parseInt(request.getParameter("id"));
 
-			// 작성
-			SecSql sql = SecSql.from("INSERT");
-			sql.append("INTO article");
-			sql.append("SET regDate = NOW()");
-			sql.append(", title = ?", title);
-			sql.append(", `body` = ?", body);
+			SecSql sql = SecSql.from("SELECT *");
+			sql.append("FROM article");
+			sql.append("WHERE id = ?", id);
 
-			int id = DBUtil.insert(conn, sql);
+			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
 
-			request.setAttribute("title", title);
-			request.setAttribute("body", body);
-
-			response.getWriter()
-					.append(String.format("<script>alert('%d번 글이 생성 되었습니다.'); location.replace('list');</script>", id));
+			request.setAttribute("articleRow", articleRow);
+			request.getRequestDispatcher("/jsp/article/modify.jsp").forward(request, response);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
