@@ -13,7 +13,7 @@
 	
 <!-- 	<div><a href="/JSP_AM/article/list"> 게시물 리스트 </a></div> -->
 
-	<div><a href="../article/list"> 게시물 리스트 </a></div>
+	<div><a href="http://localhost:8081/JSP_AM/article/list"> 게시물 리스트 </a></div>
 	
 </body>
 </html>

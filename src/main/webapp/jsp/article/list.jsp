@@ -22,6 +22,10 @@ int totalPage = (int)request.getAttribute("totalPage");
 	
 	<h1 align="center"> 게시물 리스트 </h1>
 	
+	<div align="center">
+		<a href="write">글 쓰기</a>
+	</div>
+	
 	<table border="1" bordercolor="pink" align="center">
 	<colgroup>
 		<col width="50"/>
