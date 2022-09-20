@@ -15,6 +15,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+
 
 @WebServlet("/article/doWrite")
 public class ArticleDoWriteServlet extends HttpServlet {
@@ -30,7 +33,16 @@ public class ArticleDoWriteServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		response.setContentType("text/html; charset=UTF-8");
-
+		
+		HttpSession session = request.getSession();
+		
+		if (session.getAttribute("loginedMemberId") == null) {
+			response.getWriter()
+			.append(String.format("<script>alert('!! 로그인 후 이용 가능 합니다. !!'); location.replace('../member/login');</script>"));
+			
+			return;
+		}
+		
 		// DB 연결
 		Connection conn = null;
 		String driverName = Config.getDBDriverClassName();
@@ -49,11 +61,14 @@ public class ArticleDoWriteServlet extends HttpServlet {
 
 			String title = request.getParameter("title");
 			String body = request.getParameter("body");
+			
+			int loginedMemberId = (int) session.getAttribute("loginedMemberId");
 
 			// 작성
 			SecSql sql = SecSql.from("INSERT");
 			sql.append("INTO article");
 			sql.append("SET regDate = NOW()");
+			sql.append(", memberId = ?", loginedMemberId);
 			sql.append(", title = ?", title);
 			sql.append(", `body` = ?", body);
 
@@ -61,7 +76,7 @@ public class ArticleDoWriteServlet extends HttpServlet {
 
 			request.setAttribute("title", title);
 			request.setAttribute("body", body);
-
+			
 			response.getWriter()
 					.append(String.format("<script>alert('%d번 글이 생성 되었습니다.'); location.replace('list');</script>", id));
 
