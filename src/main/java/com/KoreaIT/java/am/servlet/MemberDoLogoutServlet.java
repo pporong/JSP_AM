@@ -1,6 +1,9 @@
 package com.KoreaIT.java.am.servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
+import com.KoreaIT.java.am.exception.SQLErrorException;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -9,35 +12,28 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet("/home/main")
-public class MainPageServlet extends HttpServlet {
+@WebServlet("/member/doLogout")
+public class MemberDoLogoutServlet extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doGet(request, response);	
+		doGet(request, response);
 	}
-
+	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		HttpSession session = request.getSession();
-		
-		boolean isLogined = false;
-		int loginedMemberId = -1;
-		
-		if(session.getAttribute("loginedMemberLoginId") != null) {
-			loginedMemberId = (int)session.getAttribute("loginedMemberId");
-			isLogined = true;
-		}
-		
-		request.setAttribute("isLogined", isLogined);
-		request.setAttribute("loginedMemberId", loginedMemberId);
-		
-		request.getRequestDispatcher("/jsp/home/main.jsp").forward(request, response);
-		
 
+		response.setContentType("text/html; charset=UTF-8");
+			
+			HttpSession session = request.getSession();
+			session.removeAttribute("loginedMemberId");
+			session.removeAttribute("loginedMemberLoginId");
+
+			response.getWriter()
+					.append(String.format("<script>alert('로그아웃 되었습니다. :)'); location.replace('../home/main');</script>"));	
+	
 	}
 
 }

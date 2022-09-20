@@ -16,6 +16,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/member/doLogin")
 public class MemberDoLoginServlet extends HttpServlet {
@@ -50,6 +51,7 @@ public class MemberDoLoginServlet extends HttpServlet {
 			conn = DriverManager.getConnection(Config.getDBUrl(), Config.getDBUser(), Config.getDBPassword());
 			
 			String loginId = request.getParameter("loginId");
+			String loginPw = request.getParameter("loginPw");
 			
 			SecSql sql = new SecSql();
 			
@@ -57,14 +59,24 @@ public class MemberDoLoginServlet extends HttpServlet {
 			sql.append("FROM `member`");
 			sql.append("WHERE loginId = ?", loginId);
 
-			Map<String, Object> memberMap = DBUtil.selectRow(conn, sql);
+			Map<String, Object> memberRow = DBUtil.selectRow(conn, sql);
 
-			if (memberMap.isEmpty()) {
+			if (memberRow.isEmpty()) {
+				response.getWriter().append(String
+						.format("<script>alert(' !! %s 은(는) 존재하지 않는 아이디입니다. !!'); history.back(); </script>", loginId));
 				return;
+			} if (memberRow.get("loginPw").equals(loginPw) == false) {
+				response.getWriter().append(String
+						.format("<script>alert('!! 비밀번호가 올바르지 않습니다. !!'); history.back(); </script>", loginId));
+				return; 
 			}
 			
+			HttpSession session = request.getSession();
+			session.setAttribute("loginedMemberLoginId", memberRow.get("loginId"));
+			session.setAttribute("loginedMemberId", memberRow.get("id"));
+
 			response.getWriter()
-					.append(String.format("<script>alert('환영합니다. %s님! :) '); location.replace('../home/main');</script>", loginId));	
+					.append(String.format("<script>alert('환영합니다. %s님! :) '); location.replace('../home/main');</script>", memberRow.get("name")));	
 			
 
 		} catch (SQLException e) {

@@ -16,10 +16,23 @@
 		font-size: inherit;
 		text-decoration: none;
 		color: inherit;
+		cursor : pointer;
+	}
+	.join_form {
+		border : 2px solid black;
+		text-align : center;
+		width : 500px;
+		height : 300px;
+		margin : 0 auto;
+		padding : 20px;
+	}
+	.join_form >.btn_box {
+		margin : 20px;
+	}
+	h1 {
+		text-align : center;
 	}
 </style>
-
-	<h1>회원가입</h1>
 
 	<script>
 		var JoinForm__submitDone = false;
@@ -71,29 +84,36 @@
 
 	<form action="doJoin" method="post"
 		onsubmit="JoinForm__submit(this); return false;">
-		<div>
-			* 이름 : <input autocomplete="off" placeholder="이름을 입력해주세요" name="name"
-				type="text" />
-		</div>
-		<div>
-			* 아이디 : <input autocomplete="off" placeholder="아이디를 입력해주세요"
-				name="loginId" type="text" />
-		</div>
-		<div>
-			* 비밀번호 : <input autocomplete="off" placeholder="비밀번호"
-				name="loginPw" type="password" />
-		</div>
-		<div>
-			* 비밀번호 확인: <input autocomplete="off" placeholder="비밀번호 확인"
-				name="loginPwConfirm" type="password" />
-		</div>
 
-		<div>
-			<button type="submit">가입 하기</button>
+		<div class="join_form">
+			
+			<h1>회원가입</h1>
+		
+			<div style="margin-bottom : 20px">
+				* 이름 : <input autocomplete="off" placeholder="이름을 입력해주세요"
+					name="name" type="text" />
+			</div>
+			<div style="margin-bottom : 20px">
+				* 아이디 : <input autocomplete="off" placeholder="아이디를 입력해주세요"
+					name="loginId" type="text" />
+			</div>
+			<div style="margin-bottom : 20px">
+				* 비밀번호 : <input autocomplete="off" placeholder="비밀번호" name="loginPw"
+					type="password" />
+			</div>
+			<div style="margin-bottom : 20px">
+				* 비밀번호 확인: <input autocomplete="off" placeholder="비밀번호 확인"
+					name="loginPwConfirm" type="password" />
+			</div>
 
-			<button>
-				<a href="../home/main">취소 하기</a>
-			</button>
+			<div class = "btn_box">
+				<button type="submit">가입 하기</button>
+
+				<button>
+					<a href="../home/main">취소 하기</a>
+				</button>
+			</div>
+
 		</div>
 
 	</form>
