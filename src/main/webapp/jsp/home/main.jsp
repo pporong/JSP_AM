@@ -32,8 +32,13 @@
 		<button>
 			<a href="http://localhost:8081/JSP_AM/member/join"> 회원가입 </a>
 		</button>
+		<button>
+			<a href="http://localhost:8081/JSP_AM/member/login"> 로그인 </a>
+		</button>	
+		<button>
+			<a href="http://localhost:8081/JSP_AM/article/list"> 게시물 리스트 </a>
+		</button>
 		
-		<a href="http://localhost:8081/JSP_AM/article/list"> 게시물 리스트 </a>
 	</div>
 	
 </body>

@@ -60,3 +60,23 @@ title = CONCAT('제목',RAND()),
 
 SELECT * FROM article;
 
+
+# `member` 테이블 생성
+CREATE TABLE `member`(
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    `name` CHAR(100) NOT NULL,
+    loginId CHAR(100) NOT NULL,
+    loginPw CHAR(200) NOT NULL
+);
+
+# `member` 테이블 데이터 추가
+INSERT INTO `member` 
+SET regDate = NOW(),
+    `name` = '김개똥',
+    loginId = 'test1',
+    loginPw = 'test1';
+    
+SELECT * FROM `member`;    
+
+

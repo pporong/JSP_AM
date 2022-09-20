@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import com.KoreaIT.java.am.config.Config;
+import com.KoreaIT.java.am.exception.SQLErrorException;
 import com.KoreaIT.java.am.util.DBUtil;
 import com.KoreaIT.java.am.util.SecSql;
 
@@ -31,9 +32,7 @@ public class MemberDoJoinServlet extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 
 		// DB 연결
-
 		Connection conn = null;
-
 		String driverName = Config.getDBDriverClassName();
 
 		try {
@@ -43,28 +42,40 @@ public class MemberDoJoinServlet extends HttpServlet {
 			System.out.println("예외 : 클래스가 없습니다.");
 			System.out.println("프로그램을 종료합니다.");
 			return;
-		}
-
-		try {
+		} try {
 			conn = DriverManager.getConnection(Config.getDBUrl(), Config.getDBUser(), Config.getDBPassword());
-
+			
 			String loginId = request.getParameter("loginId");
 			String loginPw = request.getParameter("loginPw");
 			String name = request.getParameter("name");
+			
+			SecSql sql = SecSql.from("SELECT COUNT(*) AS cnt");
+			sql.append("FROM `member`");
+			sql.append("WHERE loginId = ? ", loginId);
 
-			SecSql sql = SecSql.from("INSERT INTO `member`");
+			boolean isJoinAvailableLoginId = DBUtil.selectRowIntValue(conn, sql) == 0;
+
+			if (isJoinAvailableLoginId == false) {
+				response.getWriter().append(String
+						.format("<script>alert(' !! %s 은(는) 이미 사용중인 아이디입니다. !!'); location.replace('../home/main');</script>", loginId));
+				return;
+			}
+
+			sql = SecSql.from("INSERT INTO `member`");
 			sql.append("SET regDate = NOW()");
 			sql.append(", loginId = ?", loginId);
 			sql.append(", loginPw = ?", loginPw);
 			sql.append(", `name` = ?;", name);
 
 			int id = DBUtil.insert(conn, sql);
-
+			
 			response.getWriter()
 					.append(String.format("<script>alert('%s 님 회원 가입이 완료 되었습니다. :) '); location.replace('../home/main');</script>", name));	
-
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} catch (SQLErrorException e) {
+			e.getOrigin().printStackTrace();
 		} finally {
 			try {
 				if (conn != null && !conn.isClosed()) {
@@ -76,7 +87,5 @@ public class MemberDoJoinServlet extends HttpServlet {
 		}
 
 	}
-
-
 
 }
