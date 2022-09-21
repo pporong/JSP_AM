@@ -87,24 +87,17 @@ public class ArticleListServlet extends HttpServlet {
 			sql.append("FROM article");
 			
 			// 총 게시물 갯수
-			int totalCount = DBUtil.selectRowIntValue(conn, sql);
-			
+			int totalCount = DBUtil.selectRowIntValue(conn, sql);	
 			// 총 페이지 수
 			int totalPage = (int)Math.ceil((double)totalCount / itemsInAPage);
 			
-
-			
-			 sql = SecSql.from("SELECT *"); sql.append("FROM article");
-			 sql.append("ORDER BY id DESC"); sql.append("LIMIT ?, ?", limitFrom,
-			 itemsInAPage);
+			 sql = SecSql.from("SELECT A.*, M.name AS writer");
+			 sql.append("FROM article as A"); 
+			 sql.append("INNER JOIN `member` as M");
+			 sql.append("ON A.memberId = M.id"); 
+			 sql.append("ORDER BY A.id DESC");
+			 sql.append("LIMIT ?, ?", limitFrom, itemsInAPage);
 			 
-
-			/*
-			 * sql.append("SELECT A.*, M.name AS extra__writer");
-			 * sql.append("FROM article as A"); sql.append("INNER JOIN member as M");
-			 * sql.append("ON A.memberId = M.id"); sql.append("ORDER BY A.id DESC");
-			 * sql.append("LIMIT ?, ?", limitFrom, itemsInAPage);
-			 */
 			
 			List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql);
 			
@@ -115,7 +108,6 @@ public class ArticleListServlet extends HttpServlet {
 			
 			String title = request.getParameter("title");
 			String body = request.getParameter("body");
-			/* String extra__writer = request.getParameter("extra__writer"); */
 			
 
 		} catch (SQLException e) {

@@ -18,8 +18,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet("/article/modify")
-public class ArticleModifyServlet extends HttpServlet {
+@WebServlet("/s/*")
+public class DispatcherServlet extends HttpServlet {
+
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -29,17 +30,6 @@ public class ArticleModifyServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		response.setContentType("text/html; charset=UTF-8");
-		
-		// 로그인 권한 체크
-		HttpSession session = request.getSession();
-		if (session.getAttribute("loginedMemberLoginId") == null) {
-			response.getWriter().append(
-					String.format("<script>alert('!! 로그인 후 이용 가능 합니다. !!'); location.replace('../member/login');</script>"));
-			return;
-		}
-
 		// DB 연결
 		Connection conn = null;
 
@@ -49,36 +39,45 @@ public class ArticleModifyServlet extends HttpServlet {
 			Class.forName(driverName);
 
 		} catch (ClassNotFoundException e) {
-			System.out.println("예외 : 클래스가 없습니다.");
-			System.out.println("프로그램을 종료합니다.");
+			System.out.println("** 예외 : 클래스가 없습니다. **");
+			System.out.println("프로그램을 종료합니다. :(");
 			return;
 		}
 
 		try {
 			conn = DriverManager.getConnection(Config.getDBUrl(), Config.getDBUser(), Config.getDBPassword());
-			int id = Integer.parseInt(request.getParameter("id"));
-			SecSql sql = SecSql.from("SELECT *");
-			sql.append("FROM article");
-			sql.append("WHERE id = ?", id);
-
-			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
-
-			int loginedMemberId = (int) session.getAttribute("loginedMemberId");
-
-			if (loginedMemberId != (int) articleRow.get("memberId")) {
-				response.getWriter().append(String
-						.format("<script>alert('!! 해당 게시물에 대한 권한이 없습니다. !!'); location.replace('../article/list');</script>"));
-				return;
-			}
-
-			sql = SecSql.from("SELECT *");
-			sql.append("FROM article");
-			sql.append("WHERE id = ?", id);
-
-			request.setAttribute("articleRow", articleRow);
-			request.getRequestDispatcher("/jsp/article/modify.jsp").forward(request, response);
 			
-		} catch (SQLException e) {
+			HttpSession session = request.getSession();
+			
+			boolean isLogined = false;
+			int loginedMemberId = -1;
+			Map<String, Object> loginedMemberRow = null;
+
+		}
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("UTF-8");
+		
+		String requestUri = request.getRequestURI();
+		String[] requestUriBits = requestUri.split("/");
+		// [0]/[1]/[2]/[3]
+		
+		if (requestUriBits.length < 5) {
+			response.getWriter().append("올바른 요청이 아닙니다. ");
+			return;
+		}
+		
+		String cotnrollerName = requestUriBits[3];
+		String actionMethodName = requestUriBits[4];
+		
+		if (cotnrollerName.equals("article")) {
+			
+			
+		}
+		
+		
+		
+
+ catch (SQLException e) {
 			e.printStackTrace();
 		} catch (SQLErrorException e) {
 			e.getOrigin().printStackTrace();

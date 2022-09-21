@@ -32,11 +32,8 @@ Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("art
 			</div>
 
 		<button type="submit">수정 완료</button>
-		
+		<button> <a href="list"> 취소  </a></button>
 		</form>
-		
-		<div> <a href="list"> 리스트로 돌아가기 </a></div>
-		<div> <a href="detail"> 본문으로 돌아가기 </a></div>
 	
 	</div>
 

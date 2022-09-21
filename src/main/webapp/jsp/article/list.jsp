@@ -17,8 +17,16 @@ int totalPage = (int)request.getAttribute("totalPage");
 <title> 게시물 리스트 </title>
 </head>
 <body>
+<style>
+	h1 {
+	text-align: center;
+	color : navy;
+	}
+</style>
 
-	<h1 align="center"> 게시물 리스트 </h1>
+	<h1> 게시물 리스트 </h1>
+	
+	<!-- topBar 적용 -->
 	<%@ include file="../part/topBar.jspf" %>
 	
 	<table border="1" bordercolor="pink" align="center">
@@ -40,7 +48,7 @@ int totalPage = (int)request.getAttribute("totalPage");
 		<tr>
 			<td align="center"><%=articleRow.get("id") %>번</td>
 			<td align="center"><a href="detail?id=<%=articleRow.get("id") %>"><%=articleRow.get("title") %></a></td>	
-			<td align="center"><%=articleRow.get("memberId") %></td>		
+			<td align="center"><%=articleRow.get("writer") %></td>		
 			<td align="center"><%=articleRow.get("regDate") %></td>		
 			
 			<td align="center"><a href="modify?id=<%=articleRow.get("id") %>"> 수정 </a></td>	
