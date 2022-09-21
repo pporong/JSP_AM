@@ -35,6 +35,7 @@ int totalPage = (int)request.getAttribute("totalPage");
 		<th>번 호</th>
 		<th>날 짜</th>
 		<th>제 목</th>
+		<th>작성자</th>
 		<th>수 정</th>
 		<th>삭 제</th>
 		
@@ -45,6 +46,7 @@ int totalPage = (int)request.getAttribute("totalPage");
 			<td align="center"><%=articleRow.get("id") %>번</td>
 			<td align="center"><%=articleRow.get("regDate") %></td>
 			<td align=""><a href="detail?id=<%=articleRow.get("id") %>"><%=articleRow.get("title") %></a></td>	
+			<td align="center"><%=articleRow.get("memberId") %></td>	
 					
 			<td align="center"><a href="modify?id=<%=articleRow.get("id") %>"> 수정 </a></td>
 			

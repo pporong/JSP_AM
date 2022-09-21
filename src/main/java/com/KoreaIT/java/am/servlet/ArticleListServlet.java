@@ -17,6 +17,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/article/list")
 public class ArticleListServlet extends HttpServlet {
@@ -71,10 +72,18 @@ public class ArticleListServlet extends HttpServlet {
 			int totalPage = (int)Math.ceil((double)totalCount / itemsInAPage);
 			
 
-			sql = SecSql.from("SELECT *");
-			sql.append("FROM article");
-			sql.append("ORDER BY id DESC");
-			sql.append("LIMIT ?, ?", limitFrom, itemsInAPage);
+			
+			 sql = SecSql.from("SELECT *"); sql.append("FROM article");
+			 sql.append("ORDER BY id DESC"); sql.append("LIMIT ?, ?", limitFrom,
+			 itemsInAPage);
+			 
+
+			/*
+			 * sql.append("SELECT A.*, M.name AS extra__writer");
+			 * sql.append("FROM article as A"); sql.append("INNER JOIN member as M");
+			 * sql.append("ON A.memberId = M.id"); sql.append("ORDER BY A.id DESC");
+			 * sql.append("LIMIT ?, ?", limitFrom, itemsInAPage);
+			 */
 			
 			List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql);
 			
@@ -82,6 +91,14 @@ public class ArticleListServlet extends HttpServlet {
 			request.setAttribute("totalPage", totalPage);
 			request.setAttribute("articleRows", articleRows);
 			request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response);
+			
+			String title = request.getParameter("title");
+			String body = request.getParameter("body");
+			/* String extra__writer = request.getParameter("extra__writer"); */
+			
+			HttpSession session = request.getSession();
+			
+			int loginedMemberId = (int) session.getAttribute("loginedMemberId");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
