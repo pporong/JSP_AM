@@ -50,9 +50,9 @@ int id = Integer.parseInt(articleId);
 		}
 		
 	</style>
-	
-<!-- <div> <a href="/JSP_AM/article/list" target="_blank"> 게시물 리스트 바로가기 </a></div> -->
-<!-- <div> <a href="detail" target="_blank"> 상세보기 바로가기 </a> </div> -->
+
+
+<%@ include file="../part/topBar.jspf" %>
 
 <div class="detailP">
 
@@ -68,7 +68,6 @@ int id = Integer.parseInt(articleId);
 		<button><a href="doDelete?id=<%=articleRow.get("id") %>"> 삭제 </a></button>
 		
 		<button><a href="doUpdate?id=<%=articleRow.get("id") %>"> 수정 </a></button>
-		<div> <a href="list"> 리스트로 돌아가기 </a></div>
 </div>
 
 </div>

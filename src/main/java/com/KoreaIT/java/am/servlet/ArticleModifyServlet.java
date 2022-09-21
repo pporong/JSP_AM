@@ -16,6 +16,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/article/modify")
 public class ArticleModifyServlet extends HttpServlet {
@@ -47,16 +48,35 @@ public class ArticleModifyServlet extends HttpServlet {
 
 		try {
 			conn = DriverManager.getConnection(Config.getDBUrl(), Config.getDBUser(), Config.getDBPassword());
-
+			
+			String loginId = request.getParameter("loginId");
 			int id = Integer.parseInt(request.getParameter("id"));
 
+			HttpSession session = request.getSession();
+			
 			SecSql sql = SecSql.from("SELECT *");
 			sql.append("FROM article");
 			sql.append("WHERE id = ?", id);
 
+			// 게시물 권한 체크
+			if (session.getAttribute("loginId") != session.getAttribute("loginedMemberLoginId")) {
+				response.getWriter()
+				.append(String.format("<script>alert('!! 권한이 없습니다. !!'); location.replace('../article/list');</script>"));			
+				return;
+			}
+			if (session.getAttribute("loginId") == null) {
+				response.getWriter()
+				.append(String.format("<script>alert('!! 로그인 후 이용 가능합니다. !!'); location.replace('../article/list');</script>"));			
+				return;
+			}
+			
 			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
-
+			Map<String, Object> memberRow = DBUtil.selectRow(conn, sql);
+			
+			session.setAttribute("loginedMemberLoginId", memberRow.get("loginId"));
+			session.setAttribute("loginedMemberId", memberRow.get("id"));
 			request.setAttribute("articleRow", articleRow);
+			
 			request.getRequestDispatcher("/jsp/article/modify.jsp").forward(request, response);
 
 		} catch (SQLException e) {

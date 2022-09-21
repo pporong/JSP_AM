@@ -17,14 +17,9 @@ int totalPage = (int)request.getAttribute("totalPage");
 <title> 게시물 리스트 </title>
 </head>
 <body>
-	
-	<div> <a href="../home/main"> 메인 페이지 바로가기 </a></div>
-	
+
 	<h1 align="center"> 게시물 리스트 </h1>
-	
-	<div align="center">
-		<a href="write">글 쓰기</a>
-	</div>
+	<%@ include file="../part/topBar.jspf" %>
 	
 	<table border="1" bordercolor="pink" align="center">
 	<colgroup>
@@ -33,9 +28,9 @@ int totalPage = (int)request.getAttribute("totalPage");
 	</colgroup>
 	<tr class="title" bgcolor = "orange">
 		<th>번 호</th>
-		<th>날 짜</th>
 		<th>제 목</th>
 		<th>작성자</th>
+		<th>날 짜</th>
 		<th>수 정</th>
 		<th>삭 제</th>
 		
@@ -44,12 +39,11 @@ int totalPage = (int)request.getAttribute("totalPage");
 		<% for(Map<String, Object> articleRow : articleRows){ %>
 		<tr>
 			<td align="center"><%=articleRow.get("id") %>번</td>
-			<td align="center"><%=articleRow.get("regDate") %></td>
-			<td align=""><a href="detail?id=<%=articleRow.get("id") %>"><%=articleRow.get("title") %></a></td>	
-			<td align="center"><%=articleRow.get("memberId") %></td>	
-					
-			<td align="center"><a href="modify?id=<%=articleRow.get("id") %>"> 수정 </a></td>
+			<td align="center"><a href="detail?id=<%=articleRow.get("id") %>"><%=articleRow.get("title") %></a></td>	
+			<td align="center"><%=articleRow.get("memberId") %></td>		
+			<td align="center"><%=articleRow.get("regDate") %></td>		
 			
+			<td align="center"><a href="modify?id=<%=articleRow.get("id") %>"> 수정 </a></td>	
 			<td align="center"><a href="doDelete?id=<%=articleRow.get("id") %>"> 삭제 </a></td>
 
 			
