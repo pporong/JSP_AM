@@ -92,7 +92,7 @@ public class DispatcherServlet extends HttpServlet {
 					articleController.showList();
 				} else if (actionMethodName.equals("write")) {
 					articleController.doWrite();
-				}
+				} 
 			}
 
 		} catch (SQLException e) {

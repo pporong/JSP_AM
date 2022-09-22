@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
+import com.KoreaIT.java.am.dto.Article;
 import com.KoreaIT.java.am.service.ArticleService;
 import com.KoreaIT.java.am.util.DBUtil;
 import com.KoreaIT.java.am.util.SecSql;
@@ -40,18 +41,47 @@ public class ArticleController {
 	
 		int totalPage = articleService.getForPrintListTotalPage();
 		
-		List<Map<String, Object>> articleRows = articleService.getForPrintArticleRows(page);
+		List<Article> articles = articleService.getForPrintArticles(page);
 		
 		request.setAttribute("page", page);
 		request.setAttribute("totalPage", totalPage);
-		request.setAttribute("articleRows", articleRows);
+		request.setAttribute("articleRows", articles);
 		request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response);
 		
 	}
-
 
 	// article/write
 	public void doWrite() throws ServletException, IOException {
 		
 	}
+	
+	/*
+	 * // article/delete public void doDelete() throws ServletException, IOException
+	 * {
+	 * 
+	 * articleService.doDelete(id);
+	 * 
+	 * Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
+	 * 
+	 * int loginedMemberId = articleService.getLoginedMemberId();
+	 * 
+	 * 
+	 * 
+	 * if (loginedMemberId != (int) articleRow.get("memberId")) {
+	 * response.getWriter().append(String
+	 * .format("<script>alert('!! 해당 게시물에 대한 권한이 없습니다. !!'); location.replace('../article/list');</script>"
+	 * )); return;
+	 * 
+	 * 
+	 * 
+	 * response.getWriter().append( String.
+	 * format("<script>alert('%d번 글이 삭제 되었습니다. :)'); location.replace('list');</script>"
+	 * , id));
+	 * 
+	 * }
+	 * 
+	 * 
+	 * }
+	 */
+	
 }
