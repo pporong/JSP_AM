@@ -38,7 +38,7 @@
 	}
 </style>
 
-
+	<!-- script -->
 	<script>
 		var JoinForm__submitDone = false;
 

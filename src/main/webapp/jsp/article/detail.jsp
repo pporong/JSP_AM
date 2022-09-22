@@ -52,6 +52,9 @@ int id = Integer.parseInt(articleId);
 			text-align: center;
 			color : navy;
 		}
+		.detailP >.detailBtn >button:hover {
+			border : 2px solid orange;
+		}
 
 </style>
 
@@ -63,11 +66,11 @@ int id = Integer.parseInt(articleId);
 
 	<h3 class="detailHeadText"> <%=id %>번 글 상세보기 </h3>
 	
-	<div>* 번 호 : <%=(int)articleRow.get("id") %></div>
-	<div>* 날 짜 : <%=(LocalDateTime)articleRow.get("regDate") %></div>
-	<div>* 제 목 : <%=(String)articleRow.get("title") %></div>
-	<div>* 내 용 : <%=(String)articleRow.get("body") %></div>
+	<div>* 번  호 : <%=(int)articleRow.get("id") %></div>
 	<div>* 작성자 : <%=(String)articleRow.get("writer") %></div>
+	<div>* 날  짜 : <%=(LocalDateTime)articleRow.get("regDate") %></div>
+	<div>* 제  목 : <%=(String)articleRow.get("title") %></div>
+	<div>* 내  용 : <%=(String)articleRow.get("body") %></div>
 	
 	<br />
 	<br />

@@ -13,8 +13,59 @@ Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("art
 <title>게시물 수정</title>
 </head>
 <body>
-	
-	<div class="post_body">
+<style>
+	input, button, a {
+		font-family: inherit;
+		font-size: inherit;
+		text-decoration: none;
+		color: inherit;
+		cursor : pointer;
+	}
+	.detail_form .title > textarea {
+		width: 470px;
+		height: 30px;
+		padding: 4px;
+		box-sizing: border-box;
+		border-radius: 5px;
+		resize: none;
+		margin-top: 2px;
+		font-size: 15px;
+	}	
+	.detail_form .post > textarea {
+		width: 470px;
+		height: 200px;
+		padding: 10px;
+		box-sizing: border-box;
+		border-radius: 5px;
+		resize: none;
+		margin-top: 10px;
+		font-size: 15px;
+	}
+	.detail_form {
+		border : 2px solid black;
+		width : 500px;
+		height : 500px;
+		padding : 20px;
+		margin: 0 auto;
+	}
+	.detail_form .btn_box {
+		position: absolute;
+   		left: 50%;
+    	top: 50%;
+    	transform: translate(-50%, -50%);
+	}
+	.detail_form >.title {
+		width: 450px;
+	}
+	h2 {
+		text-align : center;
+	}
+	.detail_form .btn_box >button:hover {
+		border : 2px solid green;
+		font-weight: bold;
+	}
+</style>
+	<div class="detail_form">
 		
 		<h2 align> <%=(int)articleRow.get("id") %>번 게시물 수정하기 </h2>
 		
@@ -26,15 +77,15 @@ Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("art
 			<div>	
 				* 번 호 : <%=(int)articleRow.get("id") %> <br />
 				* 날 짜 : <%=(LocalDateTime)articleRow.get("regDate") %> <br />
-				* 제 목 : <input type="text" name="title" placeholder="제목을 입력 해 주세요."value=" <%=(String) articleRow.get("title")%>"><br />
-				* 내 용 : <textarea type="text" name="body" placeholder="내용을 입력 해 주세요." ><%=(String)articleRow.get("body") %></textarea>
-				<br />
+				<div class="title"> * 제 목 <textarea type="text" name="post" placeholder="제목을 입력 해 주세요." ><%=(String)articleRow.get("title") %></textarea></div>
+			<div class="post"> * 내 용 <textarea type="text" name="post" placeholder="내용을 입력 해 주세요." ><%=(String)articleRow.get("body") %></textarea></div>
 			</div>
 
-		<button type="submit">수정 완료</button>
-		<button> <a href="list"> 취소  </a></button>
-		</form>
-	
+		<div class="btn_box">
+			<button type="submit">수정 완료</button>
+			<button> <a href="list"> 취소  </a></button>
+			</form>
+		</div>
 	</div>
 
 
