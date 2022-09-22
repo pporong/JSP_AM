@@ -21,12 +21,27 @@ import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/s/*")
 public class DispatcherServlet extends HttpServlet {
+	
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doGet(request, response);
+	}
+	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("UTF-8");
+		
+		String requestUri = request.getRequestURI();
+		String[] requestUriBits = requestUri.split("/");
+
+		if (requestUriBits.length < 5) {
+			response.getWriter().append("올바른 요청이 아닙니다.");
+			return;
+		}
 
 		// DB 연결
 
@@ -66,22 +81,17 @@ public class DispatcherServlet extends HttpServlet {
 			request.setAttribute("loginedMemberId", loginedMemberId);
 			request.setAttribute("loginedMemebrRow", loginedMemebrRow);
 
-			String requestUri = request.getRequestURI();
-			String[] requestUriBits = requestUri.split("/");
-
-			if (requestUriBits.length < 5) {
-				response.getWriter().append("올바른 요청이 아닙니다.");
-				return;
-			}
-
+			// Uri split
 			String controllerName = requestUriBits[3];
 			String actionMethodName = requestUriBits[4];
 
+			// article
 			if (controllerName.equals("article")) {
 				ArticleController articleController = new ArticleController(request, response, conn);
-
 				if (actionMethodName.equals("list")) {
 					articleController.showList();
+				} else if (actionMethodName.equals("write")) {
+					articleController.doWrite();
 				}
 			}
 
@@ -100,10 +110,6 @@ public class DispatcherServlet extends HttpServlet {
 		}
 	}
 
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		doGet(request, response);
-	}
+
 
 }
