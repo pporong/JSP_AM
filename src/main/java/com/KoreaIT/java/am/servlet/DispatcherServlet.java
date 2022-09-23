@@ -21,20 +21,13 @@ import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/s/*")
 public class DispatcherServlet extends HttpServlet {
-	
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		doGet(request, response);
-	}
-	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("UTF-8");
-		
+
 		String requestUri = request.getRequestURI();
 		String[] requestUriBits = requestUri.split("/");
 
@@ -60,7 +53,7 @@ public class DispatcherServlet extends HttpServlet {
 
 		try {
 			conn = DriverManager.getConnection(Config.getDBUrl(), Config.getDBUser(), Config.getDBPassword());
-
+			
 			// 모든 요청에 응답 하기 전에 무조건 해야함
 			HttpSession session = request.getSession();
 
@@ -81,18 +74,15 @@ public class DispatcherServlet extends HttpServlet {
 			request.setAttribute("loginedMemberId", loginedMemberId);
 			request.setAttribute("loginedMemebrRow", loginedMemebrRow);
 
-			// Uri split
 			String controllerName = requestUriBits[3];
 			String actionMethodName = requestUriBits[4];
 
-			// article
 			if (controllerName.equals("article")) {
 				ArticleController articleController = new ArticleController(request, response, conn);
+
 				if (actionMethodName.equals("list")) {
 					articleController.showList();
-				} else if (actionMethodName.equals("write")) {
-					articleController.doWrite();
-				} 
+				}
 			}
 
 		} catch (SQLException e) {
@@ -110,6 +100,10 @@ public class DispatcherServlet extends HttpServlet {
 		}
 	}
 
-
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doGet(request, response);
+	}
 
 }

@@ -45,19 +45,20 @@ int totalPage = (int)request.getAttribute("totalPage");
 		
 	</tr>
 	
-		<%for (Article article : articles){ %>
+			<%
+		for (Article article : articles) {
+		%>
 		<tr>
-			<td align="center"><%=article.id %>번</td>
-			<td align="center"><a href="detail?id=<%=article.id %>"><%=article.title %></a></td>	
-			<td align="center"><%=article.extra__writer %></td>
-			<td align="center"><%=article.regDate %></td>		
-			
-			<td align="center"><a href="modify?id=<%=article.id %>"> 수정 </a></td>	
-			<td align="center"><a href="doDelete?id=<%=article.id %>"> 삭제 </a></td>
-
-			
+			<td><%=article.id%></td>
+			<td><%=article.regDate%></td>
+			<td><a href="detail?id=<%=article.id%>"><%=article.title%></a></td>
+			<td><%=article.extra__writer%></td>
+			<td><a href="modify?id=<%=article.id%>">수정하기</a></td>
+			<td><a href="doDelete?id=<%=article.id%>">삭제하기</a></td>
 		</tr>
-		<%} %>
+		<%
+		}
+		%>
 	
 	</table>	
 
